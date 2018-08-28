@@ -1,3 +1,4 @@
+# Rocket League Stats bot that uses data from Octane.gg
 import praw
 import config
 import os
@@ -14,12 +15,12 @@ def initializeBot():
 				password = config.password,
 				client_id = config.client_id,
 				client_secret = config.client_secret,
-				user_agent = "/u/Sahil0719's OWL Bot")
+				user_agent = "/u/Sahil0719's RL Bot")
 	return login
 
 # what comment to search for on what subreddit, and what to reply with
 def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
-	for comment in Bot.subreddit('test').comments(limit=100):
+	for comment in Bot.subreddit('RocketLeagueEsports').comments(limit=100):
 		if "!stats" in comment.body and comment.id not in CommentsRepliedTo and comment.author != Bot.user.me():
 			body = comment.body.split("'",2)
 			body.append("placeholder")
