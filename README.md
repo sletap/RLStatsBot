@@ -24,7 +24,7 @@ now, when a user comments with ```!stats 'PLAYER NAME'``` The reddit bot will th
 ## File Rundown
 * RLBot.py - Reddit bot that runs using information from OctaneGGStats.py
 * OctaneGGStats.py - parses information from RLDataSet.py	
-* OctaneGGSelenium.py	- parses information live from Over.gg using Selenium
+* OctaneGGSelenium.py	- parses information live from Octane.gg using Selenium
 * RLDataSet.py - Player information that was obtained from OctaneGGSelenium.py that can be used in OctaneGGStats.py 
 * config.py - example file for how the config should be set up using reddit API information
 
