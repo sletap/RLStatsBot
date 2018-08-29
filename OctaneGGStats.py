@@ -1,5 +1,4 @@
 # stats from Octane.gg, static implementation
-from urllib.request import urlopen
 import RLDataSet
 
 # Parses data using Beautiful Soup 4 and return a list with all needed information
@@ -26,14 +25,16 @@ def writeStats(query, players, fullDataSet):
 		else:
 			index = index + 1
 
+	underscoredString = query.replace(" ", "_")
+
 	# strings for if player does not exist or if a player does exist
 	if index >= len(fullDataSet):
 		reply = "Invalid usage. Is your player misspelled or have you formatted incorrectly? \n\n"
 		reply = reply + "---" + "\n\n"
 		return reply
 	else:
-		reply = "# Statistics for " + query + ":" + "\n\n"
-		reply = reply + query + "|Stats|" + "\n"
+		reply = "# Statistics for [" + query + ":](https://octane.gg/player/" + underscoredString
+		reply = reply + ")\n\n" + query + "|Stats|" + "\n"
 		reply = reply + ":---|---:|" + "\n"
 		reply = reply + "Games Played|" + fullDataSet[index][1] + "|\n"
 		reply = reply + "Win Percentage|" + fullDataSet[index][2] + "|\n"
