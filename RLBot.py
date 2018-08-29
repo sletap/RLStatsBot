@@ -22,7 +22,8 @@ def initializeBot():
 def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
 	for comment in Bot.subreddit('RocketLeagueEsports').comments(limit=100):
 		if "!stats" in comment.body and comment.id not in CommentsRepliedTo and comment.author != Bot.user.me():
-			body = comment.body.replace("‘","'").replace("’","'")
+			body = comment.body[comment.body.find("!stats"):]
+			body = body.replace("‘","'").replace("’","'")
 			body = body.split("'",2)
 			body.append("placeholder")
 			player = body[1]
