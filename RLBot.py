@@ -20,7 +20,9 @@ def initializeBot():
 
 # what comment to search for on what subreddit, and what to reply with
 def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
-	for comment in Bot.subreddit('RocketLeagueEsports').comments(limit=100):
+	for comment in Bot.subreddit('Test').comments(limit=100):
+
+		# brings up the stats of one player
 		if "!stats" in comment.body and comment.id not in CommentsRepliedTo and comment.author != Bot.user.me():
 			body = comment.body[comment.body.find("!stats"):]
 			body = body.replace("‘","'").replace("’","'")
@@ -28,11 +30,34 @@ def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
 			body.append("placeholder")
 			player = body[1]
 
-			reply = OctaneGGStats.writeStats(player, players, fullDataSet)
+			reply = OctaneGGStats.writeStatsSingle(player, players, fullDataSet)
 			comment.reply(reply + "\n ^(stats are provided by) ^[Octane.gg](https://octane.gg/stats/players/career/#main), ^(this bot was created by /u/Sahil0719)"
-				+ "\n\n    usage:\n        !stats 'Player Name' (These should be the first words of the comment)")
+				+ "\n\n    usage:\n        !stats 'Player Name'")
 
-			print("a reply has been made for " + str(comment.author))
+			print("a stats reply has been made for " + str(comment.author))
+
+			CommentsRepliedTo.append(comment.id)
+			with open (commentFile, "a") as f:
+				f.write(comment.id + "\n")
+
+		# compares the stats of two players
+		if "!compare" in comment.body and comment.id not in CommentsRepliedTo and comment.author != Bot.user.me():
+			body = comment.body[comment.body.find("!compare"):]
+			body = body.replace("‘","'").replace("’","'")
+			body = body.split("'",4)
+			body = list(filter(None, body))
+			body.append("placeholder")
+
+			del body[2]
+			body.append("placeholder")
+			playerOne = body[1]
+			playerTwo = body[2]
+
+			reply = OctaneGGStats.writeStatsComparison(playerOne,playerTwo,players,fullDataSet)
+			comment.reply(reply + "\n ^(stats are provided by) ^[Octane.gg](https://octane.gg/stats/players/career/#main), ^(this bot was created by /u/Sahil0719)"
+				+ "\n\n    usage:\n        !compare 'Player Name One' 'Player Name Two'")
+
+			print("a comparison reply has been made for " + str(comment.author))
 
 			CommentsRepliedTo.append(comment.id)
 			with open (commentFile, "a") as f:
