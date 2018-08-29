@@ -20,10 +20,12 @@ def initializeBot():
 
 # what comment to search for on what subreddit, and what to reply with
 def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
-	for comment in Bot.subreddit('RocketLeagueEsports').comments(limit=100):
+	for comment in Bot.subreddit('Test').comments(limit=100):
 		if "!stats" in comment.body and comment.id not in CommentsRepliedTo and comment.author != Bot.user.me():
-			body = comment.body.split("'",2)
+			body = comment.body.replace("‘","'").replace("’","'")
+			body = body.split("'",2)
 			body.append("placeholder")
+			print(body)
 			player = body[1]
 
 			reply = OctaneGGStats.writeStats(player, players, fullDataSet)
