@@ -20,9 +20,9 @@ def learnStatistics():
 	soup = BeautifulSoup(html, 'html.parser')
 
 	# finds the table and extract the data one row at a time into a python list
-	table = soup.find('table', attrs={'class':'vuetable ui blue selectable celled stackable attached table'})
+	table = soup.find("section", {"id": "#main"})
 	table_body = table.find('tbody')
-	rows = soup.find_all('tr')
+	rows = table_body.find_all('tr')
 	for row in rows:
 		cols = row.find_all('td')
 		cols = [element.text.strip() for element in cols]
