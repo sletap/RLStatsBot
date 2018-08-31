@@ -32,7 +32,7 @@ def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
 
 			reply = OctaneGGStats.writeStatsSingle(player, players, fullDataSet)
 			comment.reply(reply + "\n ^(stats are provided by) ^[Octane.gg](https://octane.gg/stats/players/career/#main), ^(this bot was created by /u/Sahil0719)"
-				+ "\n\n    usage:\n        !stats 'Player Name'")
+				+ "\n\n    usage:\n        !stats 'Player Name' (apostrophes are required)")
 
 			print("a stats reply has been made for " + str(comment.author))
 
@@ -55,7 +55,7 @@ def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
 
 			reply = OctaneGGStats.writeStatsComparison(playerOne,playerTwo,players,fullDataSet)
 			comment.reply(reply + "\n ^(stats are provided by) ^[Octane.gg](https://octane.gg/stats/players/career/#main), ^(this bot was created by /u/Sahil0719)"
-				+ "\n\n    usage:\n        !compare 'Player Name One' 'Player Name Two'")
+				+ "\n\n    usage:\n        !compare 'Player Name One' 'Player Name Two' (apostrophes are required)")
 
 			print("a comparison reply has been made for " + str(comment.author))
 
