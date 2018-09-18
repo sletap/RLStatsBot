@@ -1,52 +1,50 @@
 # stats from Octane.gg
 import RLDataSet
-import json
-import decimal
+from decimal import Decimal
 from scipy import stats
 
 def learnStatistics():
 	fullDataSet = RLDataSet.fullDataSet
 	return fullDataSet
 
-def listStringToFloat(numList):
-	if "%" in numList[0]:
-		index = 0
-		for item in numList:
-			numList[index] = item.strip("%")
-			index += 1
-	numList = list(map(float, numList))
-	return numList
-
-def findPercentile(fullDataSet, query, statIndex):
-	players = makePlayersList(fullDataSet, 0) # get players list
-	index = indexFinder(query,players) # get player index
-	gamesPlayed = makePlayersList(fullDataSet, statIndex) # gets required stat in list form
-	gamesPlayed = listStringToFloat(gamesPlayed) # converts list from string to float
-	percentile = stats.percentileofscore(gamesPlayed,float(fullDataSet[index][statIndex].strip("%")),kind="weak")
-	percentile = str(round(percentile,2))
-	return percentile
-
-# creates a list of only players so we can search through them when a user calls for a player
-def makePlayersList(fullDataSet, index):
-	players = [] # this is where we will index players
-	for player in fullDataSet:
-		players.append(player[index])
-	return players
-
 # finds the index of where a player's information is located
-def indexFinder(query, players):
+def indexFinder(query, fullDataSet):
 	index = 0
-	for person in players:
-		if person.lower() == query.lower():
+	for person in fullDataSet:
+		if person[0].lower() == query.lower():
 			break	
 		else:
 			index = index + 1
 	return index
 
+def listStringToFloat(fullDataSet, statIndex):
+	numList = []
+	for member in fullDataSet:
+		numList.append(member[statIndex])
+
+	# for percentage column in list
+	if "%" in numList[0]:
+		index = 0
+		for item in numList:
+			numList[index] = item.strip("%")
+			index += 1
+
+	# for everything else
+	numList = list(map(float, numList))
+	return numList
+
+def findPercentile(fullDataSet, query, statIndex):
+	index = indexFinder(query,fullDataSet) # get player index
+	currentStatistic = listStringToFloat(fullDataSet, statIndex) # converts list from string to float
+	percentile = stats.percentileofscore(currentStatistic,float(fullDataSet[index][statIndex].strip("%")),kind="weak")
+	percentile = str(round(percentile,2)) # rounds percentile
+	return percentile
+
 # returns the data given the name of a player, which is the query
-def writeStatsSingle(query, players, fullDataSet):
+def writeStatsSingle(query, fullDataSet):
+	
 	# finds where the player is located in the data set
-	index = indexFinder(query, players)
+	index = indexFinder(query, fullDataSet)
 	underscoredString = query.replace(" ", "_")
 
 	# strings for if player does not exist or if a player does exist
@@ -68,13 +66,14 @@ def writeStatsSingle(query, players, fullDataSet):
 		reply = reply + "---" + "\n\n"
 		return reply
 
-def writeStatsComparison(queryOne, queryTwo, players, fullDataSet):
-	indexOne = indexFinder(queryOne, players)
+def writeStatsComparison(queryOne, queryTwo, fullDataSet):
+	indexOne = indexFinder(queryOne, fullDataSet)
 	underscoredStringOne = queryOne.replace(" ", "_")
 
-	indexTwo = indexFinder(queryTwo, players)
+	indexTwo = indexFinder(queryTwo, fullDataSet)
 	underscoredStringTwo = queryTwo.replace(" ", "_")
 
+	# index is longer than the length, that means a valid player was not found
 	if indexOne >= len(fullDataSet) or indexTwo >= len(fullDataSet):
 		reply = "Invalid usage, are either of your players misspelled or have you formatted incorrectly? \n\n"
 		reply = reply + "---" + "\n\n"
@@ -104,9 +103,8 @@ def writeStatsComparison(queryOne, queryTwo, players, fullDataSet):
 # example run for testing outside of a reddit instance
 def main():
 	fullDataSet = learnStatistics()
-	players = makePlayersList(fullDataSet, 0)
-	# print(writeStatsComparison("Scrub Killa", "GarrettG", players, fullDataSet))
-	print(writeStatsSingle(input("Enter Player Name: "), players, fullDataSet))
+	print(writeStatsComparison("Scrub Killa", "GarrettG", fullDataSet))
+	# print(writeStatsSingle(input("Enter Player Name: "), fullDataSet))
 
 if __name__ == "__main__":
 	main()
