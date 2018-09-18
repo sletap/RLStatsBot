@@ -1,5 +1,5 @@
 # RLStatsBot
-A Rocket League Statistics bot that pulls information on Rocket League players from octane.gg by extracting information from HTML files. This bot is currently active and functional on the subreddits /r/RocketLeagueEsports and /r/RocketLeague
+A Rocket League Statistics bot that pulls information on Rocket League players from octane.gg by extracting information from HTML files. This bot is currently active and functional on the subreddits /r/RocketLeagueEsports and /r/RocketLeague. An example comment can be seen  here: https://goo.gl/YqvNBr
 
 ## Getting Started 
 Run ```python3 RLBot.py``` to start the bot. If desired, OctangeGGSelenium can be run to get an updated data set.  
