@@ -8,9 +8,8 @@ import OctaneGGStats
 commentFile = "CommentsRepliedTo.txt"
 
 # logs the bot in
-# credentials are stored in an external file (config) for security
+# credentials are stored in an external file (config)
 def initializeBot():
-	print("Currently Logging in \n")
 	login = praw.Reddit(username = config.username,
 				password = config.password,
 				client_id = config.client_id,
@@ -19,7 +18,9 @@ def initializeBot():
 	return login
 
 # what comment to search for on what subreddit, and what to reply with
-def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
+
+# EXPERIMENT: or comment in Bot.subreddit('Test').comments(limit=100):
+def runBot(Bot, CommentsRepliedTo, fullDataSet):
 	for comment in Bot.subreddit('Test').comments(limit=100):
 
 		# brings up the stats of one player
@@ -30,7 +31,7 @@ def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
 			body.append("placeholder")
 			player = body[1]
 
-			reply = OctaneGGStats.writeStatsSingle(player, players, fullDataSet)
+			reply = OctaneGGStats.writeStatsSingle(player, fullDataSet)
 			comment.reply(reply + "\n ^(stats are provided by) ^[Octane.gg](https://octane.gg/stats/players/career/#main), ^(this bot was created by /u/Sahil0719)"
 				+ "\n\n    usage:\n        !stats 'Player Name' (apostrophes are required)")
 
@@ -53,7 +54,7 @@ def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
 			playerOne = body[1]
 			playerTwo = body[2]
 
-			reply = OctaneGGStats.writeStatsComparison(playerOne,playerTwo,players,fullDataSet)
+			reply = OctaneGGStats.writeStatsComparison(playerOne,playerTwo,fullDataSet)
 			comment.reply(reply + "\n ^(stats are provided by) ^[Octane.gg](https://octane.gg/stats/players/career/#main), ^(this bot was created by /u/Sahil0719)"
 				+ "\n\n    usage:\n        !compare 'Player Name One' 'Player Name Two' (apostrophes are required)")
 
@@ -64,7 +65,7 @@ def runBot(Bot, CommentsRepliedTo, fullDataSet, players):
 				f.write(comment.id + "\n")
 
 # this helps make sure a comment is not replied to more than once
-def get_saved_comments():
+def getSavedComments():
 	if not os.path.isfile(commentFile):
 		comments_replied_to = []
 	else:
@@ -76,13 +77,13 @@ def get_saved_comments():
 
 def main():
 	RedditBot = initializeBot()
-	CommentsRepliedTo = get_saved_comments()
+	CommentsRepliedTo = getSavedComments()
 	fullDataSet = OctaneGGStats.learnStatistics()
-	players = OctaneGGStats.makePlayersList(fullDataSet)
+	print("Currently Logging in \n")
 
 	while True:
 		print("Searching for Comments")
-		runBot(RedditBot,CommentsRepliedTo,fullDataSet,players)
+		runBot(RedditBot,CommentsRepliedTo,fullDataSet)
 		time.sleep(10)
 
 if __name__ == "__main__":
