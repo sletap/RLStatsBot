@@ -1,3 +1,6 @@
+# Changes I would make looking at this project a year later
+Looking back on this project with the knowledge that I have now a year later (Reading this as of August 2019), I would try to use something like AWS Lambdas that are triggered by keywords which would gather data from a database to write back to the user. This would save on server costs as it doesn't make sense to spin up a server running only this small script. I may come back to this project in the future and try to implement it that way and re-release it
+
 # RLStatsBot
 A Rocket League Statistics bot that pulls information on Rocket League players from octane.gg by extracting information from HTML files. This bot is currently active and functional on the subreddits /r/RocketLeagueEsports and /r/RocketLeague. An example comment can be seen  here: https://goo.gl/YqvNBr
 
