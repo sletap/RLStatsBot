@@ -1,4 +1,4 @@
-# Project is currently inanctive
+# Project is currently inactive
 The reddit bot will still function if you run the code, but the data is multiple years out of date now. This will eventually be revisted and overhauled using the new Octane.gg API instead of using a web scraper.
 
 # RLStatsBot
